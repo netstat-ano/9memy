@@ -1,0 +1,14 @@
+@import "../../assets/scss/variables";
+.header {
+    background-color: $secondaryTheme;
+    width: 100vw;
+    padding: 0.5rem;
+    display: grid;
+    grid-template-columns: 60% 40%;
+}
+.right-header {
+    display: flex;
+    flex-direction: row;
+}
+.button-container {
+}
