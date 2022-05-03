@@ -6,8 +6,15 @@ const AuthenticationForm = (props) => {
     const status = useSelector((state) => state.ui.authentication.status);
     return (
         <div className={styles.container}>
-            {status === "login" && <LoginForm />}
-            {status === "signup" && <RegistrationForm />}
+            {status === "login" && (
+                <LoginForm onClose={props.onClose} isOpen={props.isOpen} />
+            )}
+            {status === "signup" && (
+                <RegistrationForm
+                    onClose={props.onClose}
+                    isOpen={props.isOpen}
+                />
+            )}
         </div>
     );
 };

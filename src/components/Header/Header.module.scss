@@ -4,11 +4,22 @@
     width: 100vw;
     padding: 0.5rem;
     display: grid;
-    grid-template-columns: 60% 40%;
+    grid-template-columns: 70% 30%;
 }
 .right-header {
     display: flex;
     flex-direction: row;
+    justify-content: space-around;
 }
 .button-container {
+}
+@media only screen and (max-width: 813px) {
+    .header {
+        grid-template-columns: 40% 60%;
+    }
+}
+@media only screen and (max-width: 420px) {
+    .header {
+        grid-template-columns: 30% 70%;
+    }
 }

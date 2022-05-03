@@ -18,7 +18,12 @@ const Authentication = (props) => {
             mainAction={action.mainAction}
             secondaryAction={action.secondaryAction}
             modalTitle={title}
-            modalBody={<AuthenticationForm />}
+            modalBody={
+                <AuthenticationForm
+                    onClose={props.onClose}
+                    isOpen={props.isOpen}
+                />
+            }
             isOpen={props.isOpen}
             onClose={props.onClose}
         />

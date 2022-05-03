@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 const uiSlice = createSlice({
     name: "ui",
-    initialState: { authentication: { status: null, user: null } },
+    initialState: { authentication: { status: null } },
     reducers: {
         changeStatus(state, action) {
             state.authentication.status = action.payload;

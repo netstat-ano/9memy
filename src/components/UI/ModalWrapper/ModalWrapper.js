@@ -19,12 +19,16 @@ const ModalWrapper = (props) => {
                 <ModalBody>{props.modalBody}</ModalBody>
 
                 <ModalFooter>
-                    <Button colorScheme="blue" mr={3}>
+                    {/* <Button
+                        onClick={props.onMainAction}
+                        colorScheme="blue"
+                        mr={3}
+                    >
                         {props.mainAction}
-                    </Button>
-                    <Button onClick={props.onClose} variant="ghost">
+                    </Button> */}
+                    {/* <Button onClick={props.onClose} variant="ghost">
                         {props.secondaryAction}
-                    </Button>
+                    </Button> */}
                 </ModalFooter>
             </ModalContent>
         </Modal>
