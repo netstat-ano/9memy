@@ -1,0 +1,6 @@
+@import "../../assets/scss/variables";
+.container {
+    background-color: $mainTheme;
+    display: grid;
+    grid-template-columns: 20% 60% 20%;
+}

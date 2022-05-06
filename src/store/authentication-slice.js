@@ -10,7 +10,7 @@ const authenticationSlice = createSlice({
         logIn(state, action) {
             return { user: action.payload };
         },
-        logOut(state) {
+        logOut() {
             return { user: null };
         },
     },
@@ -34,7 +34,7 @@ export const logIn = (user) => {
 };
 export const logOut = () => {
     return async (dispatch) => {
-        signOut(auth);
+        await signOut(auth);
         dispatch(authenticationSliceActions.logOut());
     };
 };
