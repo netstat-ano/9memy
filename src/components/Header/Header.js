@@ -6,12 +6,10 @@ import Authentication from "../Authentication/Authentication";
 import { uiSliceActions } from "../../store/ui-slice";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../store/authentication-slice";
-import { Input } from "@chakra-ui/react";
-import { useState } from "react";
+import Searching from "../Searching/Searching";
 import { NavLink } from "react-router-dom";
 const Header = (props) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const [isSearchingActive, setIsSearchingActive] = useState(false);
     const user = useSelector((state) => state.authentication.user);
     const dispatch = useDispatch();
     const onLogoutHandler = (event) => {
@@ -25,10 +23,6 @@ const Header = (props) => {
         onOpen();
         dispatch(uiSliceActions.changeStatus("signup"));
     };
-
-    const onSearchIconHandler = (event) => {
-        setIsSearchingActive((state) => !state);
-    };
     return (
         <header>
             <div className={styles.header}>
@@ -38,14 +32,7 @@ const Header = (props) => {
                     </Heading>
                 </div>
                 <div className={styles["right-header"]}>
-                    {isSearchingActive && (
-                        <div>
-                            <Input></Input>
-                        </div>
-                    )}
-                    <div>
-                        <SearchIcon onClick={onSearchIconHandler} />
-                    </div>
+                    <Searching />
                     <div>
                         <ButtonGroup
                             className={styles["button-container"]}

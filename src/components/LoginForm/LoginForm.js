@@ -11,6 +11,7 @@ import { faAt, faLock } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch } from "react-redux";
 import { logIn } from "../../store/authentication-slice";
 import { useRef } from "react";
+import { fetchUserData } from "../../store/authentication-slice";
 const LoginForm = (props) => {
     const dispatch = useDispatch();
     const emailRef = useRef();

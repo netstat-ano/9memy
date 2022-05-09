@@ -4,6 +4,7 @@ import styles from "./Content.module.scss";
 import { useSelector } from "react-redux";
 import { Route } from "react-router-dom/cjs/react-router-dom.min";
 import { Redirect } from "react-router-dom";
+import Posts from "../Posts/Posts";
 const Content = (props) => {
     const user = useSelector((state) => state.authentication.user);
     if (!user) {
@@ -16,6 +17,9 @@ const Content = (props) => {
                 <div>
                     <PostCreator />
                 </div>
+            </Route>
+            <Route path="/tag/:tag">
+                <Posts />
             </Route>
         </div>
     );
