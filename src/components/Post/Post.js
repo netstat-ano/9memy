@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getDownloadURL, ref as sRef } from "firebase/storage";
-import { database, storage } from "../../firebase";
+import { storage } from "../../firebase";
 import styles from "./Post.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -9,23 +9,26 @@ import {
     faComment,
 } from "@fortawesome/free-solid-svg-icons";
 import { Heading, Text } from "@chakra-ui/react";
-import { update, ref, get } from "firebase/database";
-import { updateUserData } from "../../store/authentication-slice";
-import { useDispatch, useSelector } from "react-redux";
 import PostComments from "../PostComments/PostComments";
-let isInitial = true;
+import useLikeSystem from "../../hooks/use-like-system";
 const Post = (props) => {
     const [fetchedMeme, setFetchedMeme] = useState(null);
     const [isCommentSectionActive, setIsCommentSectionActive] = useState(false);
     const { postInfo } = props;
-    const user = useSelector((state) => state.authentication.user);
+    const [likes, setLikes] = useLikeSystem({
+        id: postInfo.id,
+        likes: postInfo.likes,
+        dislikes: postInfo.dislikes,
+        tag: postInfo.tag,
+    });
     const [comments, setComments] = useState({ ...postInfo.comments });
     console.log(comments);
-    const [likes, setLikes] = useState(postInfo.likes);
-    const [dislikes, setDislikes] = useState(postInfo.dislikes);
-    const [likeStatus, setLikeStatus] = useState(null);
-    const userData = useSelector((state) => state.authentication.userData);
-    const dispatch = useDispatch();
+    const onLikeHandler = () => {
+        setLikes.onLikeHandler();
+    };
+    const onDislikeHandler = () => {
+        setLikes.onDislikeHandler();
+    };
     const onCommentsClickHandler = () => {
         setIsCommentSectionActive((state) => !state);
     };
@@ -33,100 +36,8 @@ const Post = (props) => {
         getDownloadURL(sRef(storage, `memes/${postInfo.id}`)).then((url) => {
             setFetchedMeme(url);
         });
-    }, []);
-    useEffect(() => {
-        const fetchLikes = async () => {
-            const snapshot = await get(ref(database, `/${user.uid}`));
-            if (snapshot.exists()) {
-                const response = snapshot.val();
-                if (response.liked) {
-                    for (const id in response.liked) {
-                        if (id === postInfo.id) {
-                            setLikeStatus("like");
-                        }
-                    }
-                }
-                if (response.disliked) {
-                    for (const id in response.disliked) {
-                        if (id === postInfo.id) {
-                            setLikeStatus("dislike");
-                        }
-                    }
-                }
-            }
-        };
-        fetchLikes();
-    }, []);
-    useEffect(() => {
-        if (!isInitial) {
-            const updates = {};
-            updates[`/posts/TAG${props.tag}/${postInfo.id}`] = {
-                ...postInfo,
-                likes,
-                dislikes,
-            };
-            update(ref(database), updates);
-            return;
-        }
-        isInitial = false;
-    }, [likes, dislikes]);
-    const onLikeHandler = (event) => {
-        if (!likeStatus) {
-            setLikes((prevState) => prevState + 1);
-            setLikeStatus("like");
-            const data = {};
-            data[`${postInfo.id}`] = postInfo.id;
-            dispatch(updateUserData({ url: "liked/", data }));
-        }
-        if (likeStatus === "like") {
-            setLikes((prevState) => prevState - 1);
-            setLikeStatus(null);
-            const data = {};
-            data[`${postInfo.id}`] = null;
-            dispatch(updateUserData({ url: "liked/", data }));
-        }
-        if (likeStatus === "dislike") {
-            setLikes((prevState) => prevState + 1);
-            setDislikes((prevState) => prevState - 1);
-            setLikeStatus("like");
+    }, [postInfo.id]);
 
-            const dataLiked = {};
-            dataLiked[`${postInfo.id}`] = postInfo.id;
-            dispatch(updateUserData({ url: "liked/", data: dataLiked }));
-            const dataDisliked = {};
-            dataDisliked[`${postInfo.id}`] = null;
-            dispatch(updateUserData({ url: "disliked/", data: dataDisliked }));
-        }
-    };
-    const onDislikeHandler = (event) => {
-        if (!likeStatus) {
-            setDislikes((prevState) => prevState + 1);
-            setLikeStatus("dislike");
-
-            const data = {};
-            data[`${postInfo.id}`] = postInfo.id;
-            dispatch(updateUserData({ url: "disliked/", data }));
-        }
-        if (likeStatus === "dislike") {
-            setDislikes((prevState) => prevState - 1);
-            setLikeStatus(null);
-
-            const data = {};
-            data[`${postInfo.id}`] = null;
-            dispatch(updateUserData({ url: "disliked/", data }));
-        }
-        if (likeStatus === "like") {
-            setLikes((prevState) => prevState - 1);
-            setDislikes((prevState) => prevState + 1);
-            setLikeStatus("dislike");
-            const dataLiked = {};
-            dataLiked[`${postInfo.id}`] = null;
-            dispatch(updateUserData({ url: "liked/", data: dataLiked }));
-            const dataDisliked = {};
-            dataDisliked[`${postInfo.id}`] = postInfo.id;
-            dispatch(updateUserData({ url: "disliked/", data: dataDisliked }));
-        }
-    };
     return (
         <div className={styles.container}>
             <div>
@@ -136,8 +47,10 @@ const Post = (props) => {
                 <Text>{postInfo.user.displayName}</Text>
                 <img className={styles.meme} src={fetchedMeme}></img>
                 <div className={styles["actions-container"]}>
-                    <div className={styles["likes-label"]}>{likes}</div>
-                    <div className={styles["dislikes-label"]}>{dislikes}</div>
+                    <div className={styles["likes-label"]}>{likes.likes}</div>
+                    <div className={styles["dislikes-label"]}>
+                        {likes.dislikes}
+                    </div>
                     <div className={styles["comments-label"]}>
                         {postInfo.comments !== 0
                             ? Object.keys(comments).length

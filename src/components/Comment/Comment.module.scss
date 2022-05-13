@@ -1,7 +1,7 @@
 .container {
     width: 100%;
-    // border: 1px solid white;
-
+    border: 1px solid white;
+    margin-bottom: 0.5rem;
     box-sizing: border-box;
 }
 .username {
@@ -11,4 +11,5 @@
 }
 .like,
 .dislike {
+    padding-right: 0.5rem;
 }
