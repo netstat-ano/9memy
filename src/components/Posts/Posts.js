@@ -2,6 +2,7 @@ import { get, ref } from "firebase/database";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { database } from "../../firebase";
+import styles from "./Posts.module.scss";
 import Post from "../Post/Post";
 const Posts = (props) => {
     const params = useParams();
@@ -17,7 +18,7 @@ const Posts = (props) => {
     }, [props.tag]);
     console.log(fetchedPosts);
     return (
-        <div>
+        <div className={styles.container}>
             {fetchedPosts.map((postInfo) => {
                 return (
                     <Post

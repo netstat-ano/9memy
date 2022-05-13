@@ -1,8 +1,11 @@
 body {
+    border: none;
     box-sizing: border-box;
     margin: 0;
     padding: 0;
     color: white !important;
+    width: 100vw;
+    height: fit-content;
 }
 html {
     background-color: #333;

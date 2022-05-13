@@ -19,11 +19,12 @@ const Post = (props) => {
     const [isCommentSectionActive, setIsCommentSectionActive] = useState(false);
     const { postInfo } = props;
     const user = useSelector((state) => state.authentication.user);
+    const [comments, setComments] = useState({ ...postInfo.comments });
+    console.log(comments);
     const [likes, setLikes] = useState(postInfo.likes);
     const [dislikes, setDislikes] = useState(postInfo.dislikes);
     const [likeStatus, setLikeStatus] = useState(null);
     const userData = useSelector((state) => state.authentication.userData);
-    console.log(likeStatus);
     const dispatch = useDispatch();
     const onCommentsClickHandler = () => {
         setIsCommentSectionActive((state) => !state);
@@ -127,44 +128,49 @@ const Post = (props) => {
         }
     };
     return (
-        <div>
-            <div className={styles.container}>
-                <div>
-                    <Heading mb={2} fontSize="xl">
-                        {postInfo.title}
-                    </Heading>
-                    <Text>{postInfo.user.displayName}</Text>
-                    <img className={styles.meme} src={fetchedMeme}></img>
-                    <div className={styles["actions-container"]}>
-                        <div className={styles["likes-label"]}>{likes}</div>
-                        <div className={styles["dislikes-label"]}>
-                            {dislikes}
-                        </div>
-                        <div className={styles["comments-label"]}>
-                            {postInfo.comments}
-                        </div>
-                        <div>
-                            <FontAwesomeIcon
-                                onClick={onLikeHandler}
-                                className={`${styles.padding} ${styles.action}`}
-                                icon={faThumbsUp}
-                            />
-                            <FontAwesomeIcon
-                                onClick={onDislikeHandler}
-                                className={styles.action}
-                                icon={faThumbsDown}
-                            />
-                        </div>
-                        <div className={styles["comment-icon"]}>
-                            <FontAwesomeIcon
-                                onClick={onCommentsClickHandler}
-                                className={styles.action}
-                                icon={faComment}
-                            />
-                        </div>
+        <div className={styles.container}>
+            <div>
+                <Heading mb={2} fontSize="xl">
+                    {postInfo.title}
+                </Heading>
+                <Text>{postInfo.user.displayName}</Text>
+                <img className={styles.meme} src={fetchedMeme}></img>
+                <div className={styles["actions-container"]}>
+                    <div className={styles["likes-label"]}>{likes}</div>
+                    <div className={styles["dislikes-label"]}>{dislikes}</div>
+                    <div className={styles["comments-label"]}>
+                        {postInfo.comments !== 0
+                            ? Object.keys(comments).length
+                            : 0}
+                    </div>
+                    <div>
+                        <FontAwesomeIcon
+                            onClick={onLikeHandler}
+                            className={`${styles.padding} ${styles.action}`}
+                            icon={faThumbsUp}
+                        />
+                        <FontAwesomeIcon
+                            onClick={onDislikeHandler}
+                            className={styles.action}
+                            icon={faThumbsDown}
+                        />
+                    </div>
+                    <div className={styles["comment-icon"]}>
+                        <FontAwesomeIcon
+                            onClick={onCommentsClickHandler}
+                            className={styles.action}
+                            icon={faComment}
+                        />
                     </div>
                 </div>
-                {isCommentSectionActive && <PostComments />}
+                {isCommentSectionActive && (
+                    <PostComments
+                        comments={comments}
+                        setComments={setComments}
+                        tag={props.tag}
+                        postInfo={postInfo}
+                    />
+                )}
             </div>
         </div>
     );
