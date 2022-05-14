@@ -26,7 +26,11 @@ const PostComments = (props) => {
                 postInfo={props.postInfo}
             />
             {comments.map((commentInfo) => (
-                <Comment commentInfo={commentInfo} />
+                <Comment
+                    tag={props.tag}
+                    postInfo={postInfo}
+                    commentInfo={commentInfo}
+                />
             ))}
         </div>
     );

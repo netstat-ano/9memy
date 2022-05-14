@@ -13,7 +13,8 @@ const useLikeSystem = (config) => {
     useEffect(() => {
         if (!isInitial) {
             const updates = {};
-            updates[`/posts/TAG${config.tag}/${config.id}`] = {
+            updates[`/posts/TAG${config.tag}/${config.url}`] = {
+                ...config.data,
                 likes,
                 dislikes,
             };
@@ -51,14 +52,14 @@ const useLikeSystem = (config) => {
             setLikeStatus("like");
             const data = {};
             data[`${config.id}`] = config.id;
-            dispatch(updateUserData({ url: "liked/", data }));
+            dispatch(updateUserData({ url: "liked/", data, id: config.id }));
         }
         if (likeStatus === "like") {
             setLikes((prevState) => prevState - 1);
             setLikeStatus(null);
             const data = {};
             data[`${config.id}`] = null;
-            dispatch(updateUserData({ url: "liked/", data }));
+            dispatch(updateUserData({ url: "liked/", data, id: config.id }));
         }
         if (likeStatus === "dislike") {
             setLikes((prevState) => prevState + 1);
@@ -67,10 +68,22 @@ const useLikeSystem = (config) => {
 
             const dataLiked = {};
             dataLiked[`${config.id}`] = config.id;
-            dispatch(updateUserData({ url: "liked/", data: dataLiked }));
+            dispatch(
+                updateUserData({
+                    url: "liked/",
+                    data: dataLiked,
+                    id: config.id,
+                })
+            );
             const dataDisliked = {};
             dataDisliked[`${config.id}`] = null;
-            dispatch(updateUserData({ url: "disliked/", data: dataDisliked }));
+            dispatch(
+                updateUserData({
+                    url: "disliked/",
+                    data: dataDisliked,
+                    id: config.id,
+                })
+            );
         }
     };
     const onDislikeHandler = (event) => {
@@ -80,7 +93,7 @@ const useLikeSystem = (config) => {
 
             const data = {};
             data[`${config.id}`] = config.id;
-            dispatch(updateUserData({ url: "disliked/", data }));
+            dispatch(updateUserData({ url: "disliked/", data, id: config.id }));
         }
         if (likeStatus === "dislike") {
             setDislikes((prevState) => prevState - 1);
@@ -88,7 +101,7 @@ const useLikeSystem = (config) => {
 
             const data = {};
             data[`${config.id}`] = null;
-            dispatch(updateUserData({ url: "disliked/", data }));
+            dispatch(updateUserData({ url: "disliked/", data, id: config.id }));
         }
         if (likeStatus === "like") {
             setLikes((prevState) => prevState - 1);
@@ -96,10 +109,22 @@ const useLikeSystem = (config) => {
             setLikeStatus("dislike");
             const dataLiked = {};
             dataLiked[`${config.id}`] = null;
-            dispatch(updateUserData({ url: "liked/", data: dataLiked }));
+            dispatch(
+                updateUserData({
+                    url: "liked/",
+                    data: dataLiked,
+                    id: config.id,
+                })
+            );
             const dataDisliked = {};
             dataDisliked[`${config.id}`] = config.id;
-            dispatch(updateUserData({ url: "disliked/", data: dataDisliked }));
+            dispatch(
+                updateUserData({
+                    url: "disliked/",
+                    data: dataDisliked,
+                    id: config.id,
+                })
+            );
         }
     };
     return [

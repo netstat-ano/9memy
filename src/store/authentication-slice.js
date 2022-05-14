@@ -74,10 +74,29 @@ export const updateUserData = (newData) => {
     return async (dispatch, getState) => {
         const user = getState().authentication.user;
         const updates = {};
-        updates[`/${user.uid}/${newData.url ? newData.url : ""}`] =
-            newData.data;
+        const snapshot = await get(
+            ref(database, `/${user.uid}/${newData.url ? newData.url : ""}`)
+        );
+        const response = snapshot.val();
+        if (newData.url && newData.url === "liked/") {
+            updates[`/${user.uid}/${newData.url ? newData.url : ""}`] = {
+                ...newData.data,
+                ...response,
+            };
+            updates[`/${user.uid}/disliked/${newData.id}`] = null;
+        } else if (newData.url && newData.url === "disliked/") {
+            updates[`/${user.uid}/${newData.url ? newData.url : ""}`] = {
+                ...newData.data,
+                ...response,
+            };
+            updates[`/${user.uid}/liked/${newData.id}`] = null;
+        }
         await update(ref(database), updates);
-        const snapshot = await get(ref(database, `/${user.uid}`));
-        dispatch(authenticationSliceActions.saveData(snapshot.val()));
+        dispatch(
+            authenticationSliceActions.saveData({
+                ...newData.data,
+                ...response,
+            })
+        );
     };
 };

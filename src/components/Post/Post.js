@@ -15,11 +15,14 @@ const Post = (props) => {
     const [fetchedMeme, setFetchedMeme] = useState(null);
     const [isCommentSectionActive, setIsCommentSectionActive] = useState(false);
     const { postInfo } = props;
+
     const [likes, setLikes] = useLikeSystem({
+        url: postInfo.id,
         id: postInfo.id,
         likes: postInfo.likes,
         dislikes: postInfo.dislikes,
-        tag: postInfo.tag,
+        tag: props.tag,
+        data: postInfo,
     });
     const [comments, setComments] = useState({ ...postInfo.comments });
     console.log(comments);
@@ -37,7 +40,7 @@ const Post = (props) => {
             setFetchedMeme(url);
         });
     }, [postInfo.id]);
-
+    console.log(postInfo);
     return (
         <div className={styles.container}>
             <div>

@@ -19,6 +19,9 @@ const CommentCreator = (props) => {
             displayName: user.displayName,
             userID: user.uid,
             content: textareaValue,
+            id,
+            likes: 0,
+            dislikes: 0,
         };
         updates[`posts/TAG${props.tag}/${postInfo.id}/comments/${id}`] =
             comment;
