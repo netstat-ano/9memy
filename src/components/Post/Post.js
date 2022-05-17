@@ -50,26 +50,19 @@ const Post = (props) => {
                 <Text>{postInfo.user.displayName}</Text>
                 <img className={styles.meme} src={fetchedMeme}></img>
                 <div className={styles["actions-container"]}>
-                    <div className={styles["likes-label"]}>{likes.likes}</div>
-                    <div className={styles["dislikes-label"]}>
-                        {likes.dislikes}
-                    </div>
-                    <div className={styles["comments-label"]}>
-                        {postInfo.comments !== 0
-                            ? Object.keys(comments).length
-                            : 0}
-                    </div>
                     <div>
                         <FontAwesomeIcon
                             onClick={onLikeHandler}
-                            className={`${styles.padding} ${styles.action}`}
+                            className={styles.action}
                             icon={faThumbsUp}
                         />
+                        <div className={styles.label}>{likes.likes}</div>
                         <FontAwesomeIcon
                             onClick={onDislikeHandler}
                             className={styles.action}
                             icon={faThumbsDown}
                         />
+                        <div className={styles.label}>{likes.dislikes}</div>
                     </div>
                     <div className={styles["comment-icon"]}>
                         <FontAwesomeIcon
@@ -77,6 +70,11 @@ const Post = (props) => {
                             className={styles.action}
                             icon={faComment}
                         />
+                        <div className={styles.label}>
+                            {postInfo.comments !== 0
+                                ? Object.keys(comments).length
+                                : 0}
+                        </div>
                     </div>
                 </div>
                 {isCommentSectionActive && (

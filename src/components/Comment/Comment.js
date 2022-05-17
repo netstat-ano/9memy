@@ -4,11 +4,13 @@ import {
     faThumbsDown,
     faComment,
 } from "@fortawesome/free-solid-svg-icons";
+import Subcomments from "../Subcomments/Subcomments";
 import useLikeSystem from "../../hooks/use-like-system";
+import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const Comment = (props) => {
     const { postInfo, commentInfo } = props;
-    console.log(props.commentInfo);
+    const [isCommentActive, setIsCommentActive] = useState(false);
     const [likes, setLikes] = useLikeSystem({
         likes: commentInfo.likes,
         dislikes: commentInfo.dislikes,
@@ -22,6 +24,9 @@ const Comment = (props) => {
     };
     const onDislikeHandler = (event) => {
         setLikes.onDislikeHandler();
+    };
+    const onCommentClickHandler = (event) => {
+        setIsCommentActive((state) => !state);
     };
     return (
         <div className={styles.container}>
@@ -40,8 +45,19 @@ const Comment = (props) => {
                     icon={faThumbsDown}
                 />
                 <div className={styles["quantity-label"]}>{likes.dislikes}</div>
-                <FontAwesomeIcon className={styles.comment} icon={faComment} />
+                <FontAwesomeIcon
+                    onClick={onCommentClickHandler}
+                    className={styles.comment}
+                    icon={faComment}
+                />
             </div>
+            {isCommentActive && (
+                <Subcomments
+                    tag={props.tag}
+                    postInfo={postInfo}
+                    commentInfo={commentInfo}
+                />
+            )}
         </div>
     );
 };

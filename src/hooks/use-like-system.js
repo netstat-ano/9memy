@@ -10,6 +10,7 @@ const useLikeSystem = (config) => {
     const [likeStatus, setLikeStatus] = useState(null);
     const user = useSelector((state) => state.authentication.user);
     const dispatch = useDispatch();
+
     useEffect(() => {
         if (!isInitial) {
             const updates = {};
@@ -18,6 +19,7 @@ const useLikeSystem = (config) => {
                 likes,
                 dislikes,
             };
+            console.log(config.url);
             update(ref(database), updates);
             return;
         }
@@ -66,21 +68,22 @@ const useLikeSystem = (config) => {
             setDislikes((prevState) => prevState - 1);
             setLikeStatus("like");
 
-            const dataLiked = {};
-            dataLiked[`${config.id}`] = config.id;
-            dispatch(
-                updateUserData({
-                    url: "liked/",
-                    data: dataLiked,
-                    id: config.id,
-                })
-            );
             const dataDisliked = {};
             dataDisliked[`${config.id}`] = null;
             dispatch(
                 updateUserData({
                     url: "disliked/",
                     data: dataDisliked,
+                    id: config.id,
+                })
+            );
+
+            const dataLiked = {};
+            dataLiked[`${config.id}`] = config.id;
+            dispatch(
+                updateUserData({
+                    url: "liked/",
+                    data: dataLiked,
                     id: config.id,
                 })
             );

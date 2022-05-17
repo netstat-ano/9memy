@@ -1,0 +1,11 @@
+@import "../../assets/scss/variables";
+.quantity-label {
+    font-size: 0.8rem;
+    padding-right: 0.5rem;
+    display: inline;
+}
+.container {
+    border-top: 1px solid $secondaryTheme;
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+}

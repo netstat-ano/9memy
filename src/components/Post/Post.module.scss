@@ -17,21 +17,19 @@
 .padding {
     padding-right: 1rem;
 }
-@mixin labels {
-    position: absolute;
-    font-size: 0.8rem;
-}
 .comments-label {
     margin-left: 9.3rem;
-    @include labels();
 }
 .likes-label {
-    @include labels();
     margin-left: 1.2rem;
 }
 .dislikes-label {
-    @include labels();
     margin-left: 3.2rem;
+}
+.label {
+    font-size: 0.8rem;
+    padding-right: 0.5rem;
+    display: inline;
 }
 .comment-icon {
     padding-left: 0.5rem;

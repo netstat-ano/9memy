@@ -45,6 +45,7 @@ const PostCreator = (props) => {
                 likes: 0,
                 comments: 0,
                 dislikes: 0,
+                date: new Date(),
             };
             updates[`posts/${writetableTag}/${uniqID}`] = post;
         }
