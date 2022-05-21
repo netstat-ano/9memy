@@ -56,6 +56,11 @@ const Comment = (props) => {
                     className={styles.comment}
                     icon={faComment}
                 />
+                <div className={styles["quantity-label"]}>
+                    {commentInfo.comments
+                        ? Object.keys(commentInfo.comments).length
+                        : 0}
+                </div>
             </div>
             {isCommentActive && (
                 <Subcomments

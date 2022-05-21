@@ -10,7 +10,6 @@ const useLikeSystem = (config) => {
     const [likeStatus, setLikeStatus] = useState(null);
     const user = useSelector((state) => state.authentication.user);
     const dispatch = useDispatch();
-
     useEffect(() => {
         if (!isInitial) {
             const updates = {};
@@ -19,7 +18,6 @@ const useLikeSystem = (config) => {
                 likes,
                 dislikes,
             };
-            console.log(config.url);
             update(ref(database), updates);
             return;
         }
@@ -49,6 +47,7 @@ const useLikeSystem = (config) => {
         fetchLikes();
     }, [config.id, user.uid]);
     const onLikeHandler = (event) => {
+        console.log("onlike");
         if (!likeStatus) {
             setLikes((prevState) => prevState + 1);
             setLikeStatus("like");
@@ -90,6 +89,7 @@ const useLikeSystem = (config) => {
         }
     };
     const onDislikeHandler = (event) => {
+        console.log("ondislike");
         if (!likeStatus) {
             setDislikes((prevState) => prevState + 1);
             setLikeStatus("dislike");

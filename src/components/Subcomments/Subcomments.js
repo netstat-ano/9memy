@@ -15,11 +15,15 @@ const Subcomments = (props) => {
                 )
             );
             if (snapshot.exists()) {
-                setSubcomments([snapshot.val()]);
+                const response = snapshot.val();
+                for (const id in response) {
+                    setSubcomments((prevState) => [...prevState, response[id]]);
+                }
             }
         };
         fetchSubcomments();
     }, []);
+    console.log(subcomments);
     return (
         <div>
             <SubcommentCreator
