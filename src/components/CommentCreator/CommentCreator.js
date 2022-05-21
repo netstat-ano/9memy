@@ -22,6 +22,7 @@ const CommentCreator = (props) => {
             id,
             likes: 0,
             dislikes: 0,
+            date: new Date(),
         };
         updates[`posts/TAG${props.tag}/${postInfo.id}/comments/${id}`] =
             comment;

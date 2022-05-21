@@ -40,7 +40,8 @@ const Post = (props) => {
             setFetchedMeme(url);
         });
     }, [postInfo.id]);
-    console.log(postInfo);
+    const date = new Date(postInfo.date);
+    console.log(date);
     return (
         <div className={styles.container}>
             <div>
@@ -48,6 +49,9 @@ const Post = (props) => {
                     {postInfo.title}
                 </Heading>
                 <Text>{postInfo.user.displayName}</Text>
+                <div className={styles.date}>{`${date.getDate()}.${
+                    date.getMonth() + 1
+                }.${date.getFullYear()}`}</div>
                 <img className={styles.meme} src={fetchedMeme}></img>
                 <div className={styles["actions-container"]}>
                     <div>

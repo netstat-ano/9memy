@@ -28,9 +28,15 @@ const Comment = (props) => {
     const onCommentClickHandler = (event) => {
         setIsCommentActive((state) => !state);
     };
+    const date = new Date(commentInfo.date);
     return (
         <div className={styles.container}>
             <div className={styles.username}>{commentInfo.displayName}</div>
+            <div className={styles.date}>
+                {`${date.getDate()}.${
+                    date.getMonth() + 1
+                }.${date.getFullYear()}`}
+            </div>
             <div className={styles.content}>{commentInfo.content}</div>
             <div>
                 <FontAwesomeIcon

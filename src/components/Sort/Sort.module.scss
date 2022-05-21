@@ -1,0 +1,8 @@
+@import "../../assets/scss/variables";
+.select option {
+    background-color: $mainTheme !important;
+}
+.select {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}

@@ -1,3 +1,4 @@
+@import "../../assets/scss/variables";
 .container {
     width: 100%;
     border: 1px solid white;
@@ -19,4 +20,8 @@
     font-size: 0.8rem;
     padding-right: 0.5rem;
     display: inline;
+}
+.date {
+    font-size: 0.8rem;
+    color: $mutedTheme;
 }
