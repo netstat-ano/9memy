@@ -11,9 +11,12 @@ import {
 import { Heading, Text } from "@chakra-ui/react";
 import PostComments from "../PostComments/PostComments";
 import useLikeSystem from "../../hooks/use-like-system";
+import Delete from "../Delete/Delete";
+import { useSelector } from "react-redux";
 const Post = (props) => {
     const [fetchedMeme, setFetchedMeme] = useState(null);
     const [isCommentSectionActive, setIsCommentSectionActive] = useState(false);
+    const user = useSelector((state) => state.authentication.user);
     const { postInfo } = props;
 
     const [likes, setLikes] = useLikeSystem({
@@ -25,10 +28,10 @@ const Post = (props) => {
         data: postInfo,
     });
     const [comments, setComments] = useState({ ...postInfo.comments });
-    console.log(comments);
     const onLikeHandler = () => {
         setLikes.onLikeHandler();
     };
+    console.log(postInfo);
     const onDislikeHandler = () => {
         setLikes.onDislikeHandler();
     };
@@ -41,7 +44,6 @@ const Post = (props) => {
         });
     }, [postInfo.id]);
     const date = new Date(postInfo.date);
-    console.log(date);
     return (
         <div className={styles.container}>
             <div>
@@ -53,6 +55,13 @@ const Post = (props) => {
                     date.getMonth() + 1
                 }.${date.getFullYear()}`}</div>
                 <img className={styles.meme} src={fetchedMeme}></img>
+                {user.uid === postInfo.user.uid && (
+                    <Delete
+                        setContent={props.setFetchedPosts}
+                        content={props.allPosts}
+                        url={`posts/TAG${props.tag}/${postInfo.id}`}
+                    />
+                )}
                 <div className={styles["actions-container"]}>
                     <div>
                         <FontAwesomeIcon
@@ -83,8 +92,8 @@ const Post = (props) => {
                 </div>
                 {isCommentSectionActive && (
                     <PostComments
-                        comments={comments}
                         setComments={setComments}
+                        comments={comments}
                         tag={props.tag}
                         postInfo={postInfo}
                     />

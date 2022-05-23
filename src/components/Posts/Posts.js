@@ -22,6 +22,8 @@ const Posts = (props) => {
             {fetchedPosts.map((postInfo) => {
                 return (
                     <Post
+                        setFetchedPosts={setFetchedPosts}
+                        allPosts={fetchedPosts}
                         tag={params.tag}
                         key={postInfo.id}
                         postInfo={postInfo}

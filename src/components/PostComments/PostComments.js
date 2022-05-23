@@ -15,7 +15,7 @@ const PostComments = (props) => {
             });
         }
     }, [props.comments]);
-
+    console.log(comments);
     return (
         <div>
             <CommentCreator
@@ -25,6 +25,10 @@ const PostComments = (props) => {
             />
             {comments.map((commentInfo) => (
                 <Comment
+                    starterComments={props.comments}
+                    setStarterComments={props.setComments}
+                    setComments={setComments}
+                    comments={comments}
                     tag={props.tag}
                     postInfo={postInfo}
                     commentInfo={commentInfo}
