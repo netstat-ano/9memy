@@ -18,7 +18,6 @@ const tagsReducer = (state, action) => {
         }
         return tag;
     });
-    console.log(newState.join(" "));
     return newState.join(" ");
 };
 const PostCreator = (props) => {
@@ -48,6 +47,7 @@ const PostCreator = (props) => {
                 date: new Date(),
             };
             updates[`posts/${writetableTag}/${uniqID}`] = post;
+            updates[`${user.uid}/posts/${uniqID}`] = uniqID;
         }
         await update(ref(database), updates);
         const storageRef = sRef(storage, `/memes/${uniqID}`);

@@ -51,10 +51,10 @@ const RegistrationForm = (props) => {
         return { ...state };
     };
     const [error, dispatchError] = useReducer(errorReducer, {
-        email: null,
-        username: null,
-        password: null,
-        retypePassword: null,
+        email: true,
+        username: true,
+        password: true,
+        retypePassword: true,
     });
     const dispatch = useDispatch();
     const onChangeHandler = (event) => {

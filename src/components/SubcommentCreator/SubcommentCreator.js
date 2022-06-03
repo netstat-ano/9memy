@@ -26,10 +26,11 @@ const SubcommentCreator = (props) => {
         };
         const newSubcomment = {};
         newSubcomment[`${id}`] = subcomment;
-        props.setSubcomments((prevState) => [...prevState, newSubcomment]);
+        props.setSubcomments((prevState) => [...prevState, subcomment]);
         updates[
             `posts/TAG${props.tag}/${postInfo.id}/comments/${commentInfo.id}/comments/${id}`
         ] = subcomment;
+        console.log(updates);
         update(ref(database), updates);
     };
     return (

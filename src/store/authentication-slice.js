@@ -31,6 +31,15 @@ export const signUp = (user) => {
         await updateProfile(auth.currentUser, {
             displayName: user.username,
         });
+        const updates = {};
+        updates[`${auth.currentUser.uid}`] = {
+            ...auth.currentUser.metadata,
+            uid: auth.currentUser.uid,
+            displayName: auth.currentUser.displayName,
+            email: auth.currentUser.email,
+        };
+        await update(ref(database), updates);
+        console.log(auth.currentUser);
         dispatch(authenticationSliceActions.logIn(auth.currentUser));
     };
 };
@@ -80,22 +89,22 @@ export const updateUserData = (newData) => {
         const response = snapshot.val();
         if (newData.url && newData.url === "liked/") {
             updates[`/${user.uid}/${newData.url ? newData.url : ""}`] = {
-                ...newData.data,
                 ...response,
+                ...newData.data,
             };
             updates[`/${user.uid}/disliked/${newData.id}`] = null;
         } else if (newData.url && newData.url === "disliked/") {
             updates[`/${user.uid}/${newData.url ? newData.url : ""}`] = {
-                ...newData.data,
                 ...response,
+                ...newData.data,
             };
             updates[`/${user.uid}/liked/${newData.id}`] = null;
         }
         await update(ref(database), updates);
         dispatch(
             authenticationSliceActions.saveData({
-                ...newData.data,
                 ...response,
+                ...newData.data,
             })
         );
     };

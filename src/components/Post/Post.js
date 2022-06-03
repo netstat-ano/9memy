@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getDownloadURL, ref as sRef } from "firebase/storage";
-import { storage } from "../../firebase";
+import { database, storage } from "../../firebase";
 import styles from "./Post.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -12,13 +12,16 @@ import { Heading, Text } from "@chakra-ui/react";
 import PostComments from "../PostComments/PostComments";
 import useLikeSystem from "../../hooks/use-like-system";
 import Delete from "../Delete/Delete";
+
 import { useSelector } from "react-redux";
+import { update, ref } from "firebase/database";
 const Post = (props) => {
     const [fetchedMeme, setFetchedMeme] = useState(null);
     const [isCommentSectionActive, setIsCommentSectionActive] = useState(false);
     const user = useSelector((state) => state.authentication.user);
     const { postInfo } = props;
-
+    console.log(postInfo);
+    console.log(props.tag);
     const [likes, setLikes] = useLikeSystem({
         url: postInfo.id,
         id: postInfo.id,
@@ -27,16 +30,26 @@ const Post = (props) => {
         tag: props.tag,
         data: postInfo,
     });
-    const [comments, setComments] = useState({ ...postInfo.comments });
+    const [comments, setComments] = useState(() => {
+        const state = [];
+        for (const commentID in postInfo.comments) {
+            state.push(postInfo.comments[commentID]);
+        }
+        return state;
+    });
     const onLikeHandler = () => {
         setLikes.onLikeHandler();
     };
-    console.log(postInfo);
     const onDislikeHandler = () => {
         setLikes.onDislikeHandler();
     };
     const onCommentsClickHandler = () => {
         setIsCommentSectionActive((state) => !state);
+    };
+    const onDeleteHandler = () => {
+        const updates = {};
+        updates[`${user.uid}/posts/${postInfo.id}`] = null;
+        update(ref(database), updates);
     };
     useEffect(() => {
         getDownloadURL(sRef(storage, `memes/${postInfo.id}`)).then((url) => {
@@ -57,6 +70,7 @@ const Post = (props) => {
                 <img className={styles.meme} src={fetchedMeme}></img>
                 {user.uid === postInfo.user.uid && (
                     <Delete
+                        onClick={onDeleteHandler}
                         setContent={props.setFetchedPosts}
                         content={props.allPosts}
                         url={`posts/TAG${props.tag}/${postInfo.id}`}

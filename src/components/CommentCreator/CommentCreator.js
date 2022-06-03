@@ -28,8 +28,8 @@ const CommentCreator = (props) => {
             comment;
         await update(ref(database), updates);
         props.setComments((state) => {
-            state[`comment${id}`] = comment;
-            return { ...state };
+            state.push(comment);
+            return [...state];
         });
         setTextareaValue("");
     };

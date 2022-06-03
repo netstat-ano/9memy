@@ -1,0 +1,25 @@
+@import "../../assets/scss/variables";
+.avatar {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    width: 200px;
+
+    background-color: $mutedTheme;
+}
+.avatar div {
+    display: none;
+}
+.avatar img {
+    width: 100%;
+}
+.avatar:hover div {
+    display: block;
+}
+.plus {
+    position: absolute;
+    font-size: 2rem;
+    &:hover {
+        cursor: pointer;
+    }
+}

@@ -6,16 +6,6 @@ import Comment from "../Comment/Comment";
 import Sort from "../Sort/Sort";
 const PostComments = (props) => {
     const { postInfo } = props;
-    const [comments, setComments] = useState([]);
-    useEffect(() => {
-        setComments([]);
-        for (const commentID in props.comments) {
-            setComments((prevState) => {
-                return [...prevState, props.comments[`${commentID}`]];
-            });
-        }
-    }, [props.comments]);
-    console.log(comments);
     return (
         <div>
             <CommentCreator
@@ -23,12 +13,10 @@ const PostComments = (props) => {
                 tag={props.tag}
                 postInfo={props.postInfo}
             />
-            {comments.map((commentInfo) => (
+            {props.comments.map((commentInfo) => (
                 <Comment
-                    starterComments={props.comments}
-                    setStarterComments={props.setComments}
-                    setComments={setComments}
-                    comments={comments}
+                    setComments={props.setComments}
+                    comments={props.comments}
                     tag={props.tag}
                     postInfo={postInfo}
                     commentInfo={commentInfo}

@@ -16,7 +16,9 @@ const Subcomments = (props) => {
             );
             if (snapshot.exists()) {
                 const response = snapshot.val();
+                console.log(response);
                 for (const id in response) {
+                    console.log(response);
                     setSubcomments((prevState) => [...prevState, response[id]]);
                 }
             }
@@ -36,6 +38,8 @@ const Subcomments = (props) => {
                 subcomments.map((value) => {
                     return (
                         <Subcomment
+                            subcomments={subcomments}
+                            setSubcomments={setSubcomments}
                             tag={props.tag}
                             commentInfo={commentInfo}
                             postInfo={postInfo}

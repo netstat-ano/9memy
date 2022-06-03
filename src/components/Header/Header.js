@@ -6,8 +6,10 @@ import Authentication from "../Authentication/Authentication";
 import { uiSliceActions } from "../../store/ui-slice";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../store/authentication-slice";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 import Searching from "../Searching/Searching";
 import { NavLink } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const Header = (props) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const user = useSelector((state) => state.authentication.user);
@@ -54,6 +56,13 @@ const Header = (props) => {
                                         Zarejestruj się
                                     </Button>
                                 </>
+                            )}
+                            {user && (
+                                <div className={styles.profile}>
+                                    <NavLink to={`/profile/${user.uid}`}>
+                                        <FontAwesomeIcon icon={faUser} />
+                                    </NavLink>
+                                </div>
                             )}
                             {user && (
                                 <NavLink to="/create-post">

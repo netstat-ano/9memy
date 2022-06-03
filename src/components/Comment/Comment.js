@@ -9,6 +9,7 @@ import useLikeSystem from "../../hooks/use-like-system";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Delete from "../Delete/Delete";
+import { useSelector } from "react-redux";
 const Comment = (props) => {
     const { postInfo, commentInfo } = props;
     const [isCommentActive, setIsCommentActive] = useState(false);
@@ -20,6 +21,7 @@ const Comment = (props) => {
         tag: props.tag,
         data: commentInfo,
     });
+    const user = useSelector((state) => state.authentication.user);
     const onLikeHandler = (event) => {
         setLikes.onLikeHandler();
     };
@@ -39,12 +41,13 @@ const Comment = (props) => {
                 }.${date.getFullYear()}`}
             </div>
             <div className={styles.content}>{commentInfo.content}</div>
-            <Delete
-                setStarterComments={props.setStarterComments}
-                setContent={props.setComments}
-                content={props.comments}
-                url={`posts/TAG${props.tag}/${postInfo.id}/comments/${commentInfo.id}`}
-            />
+            {user.uid === commentInfo.userID && (
+                <Delete
+                    setContent={props.setComments}
+                    content={props.comments}
+                    url={`posts/TAG${props.tag}/${postInfo.id}/comments/${commentInfo.id}`}
+                />
+            )}
             <div>
                 <FontAwesomeIcon
                     onClick={onLikeHandler}

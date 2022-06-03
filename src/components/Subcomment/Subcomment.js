@@ -2,6 +2,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp, faThumbsDown } from "@fortawesome/free-solid-svg-icons";
 import styles from "./Subcomment.module.scss";
 import useLikeSystem from "../../hooks/use-like-system";
+import Delete from "../Delete/Delete";
+import { useSelector } from "react-redux";
 const Subcomment = (props) => {
     const { postInfo, commentInfo } = props;
     const [likes, setLikes] = useLikeSystem({
@@ -12,6 +14,7 @@ const Subcomment = (props) => {
         tag: props.tag,
         data: props.subcommentInfo,
     });
+    const user = useSelector((state) => state.authentication.user);
     const onLikeHandler = (event) => {
         setLikes.onLikeHandler();
     };
@@ -22,6 +25,13 @@ const Subcomment = (props) => {
         <div className={styles.container}>
             <div>{props.subcommentInfo.displayName}</div>
             <div>{props.subcommentInfo.content}</div>
+            {user.uid === props.subcommentInfo.userID && (
+                <Delete
+                    setContent={props.setSubcomments}
+                    content={props.subcomments}
+                    url={`posts/TAG${props.tag}/${postInfo.id}/comments/${commentInfo.id}/comments/${props.subcommentInfo.id}`}
+                />
+            )}
             <div>
                 <FontAwesomeIcon
                     onClick={onLikeHandler}
