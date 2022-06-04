@@ -12,7 +12,7 @@ import { Heading, Text } from "@chakra-ui/react";
 import PostComments from "../PostComments/PostComments";
 import useLikeSystem from "../../hooks/use-like-system";
 import Delete from "../Delete/Delete";
-
+import AvatarThumbnail from "../AvatarThumbnail/AvatarThumbnail";
 import { useSelector } from "react-redux";
 import { update, ref } from "firebase/database";
 const Post = (props) => {
@@ -20,8 +20,7 @@ const Post = (props) => {
     const [isCommentSectionActive, setIsCommentSectionActive] = useState(false);
     const user = useSelector((state) => state.authentication.user);
     const { postInfo } = props;
-    console.log(postInfo);
-    console.log(props.tag);
+    console.log(postInfo.user.uid);
     const [likes, setLikes] = useLikeSystem({
         url: postInfo.id,
         id: postInfo.id,
@@ -63,7 +62,11 @@ const Post = (props) => {
                 <Heading mb={2} fontSize="xl">
                     {postInfo.title}
                 </Heading>
-                <Text>{postInfo.user.displayName}</Text>
+
+                <div className={styles.user}>
+                    <AvatarThumbnail uid={postInfo.user.uid} />
+                    <Text>{postInfo.user.displayName}</Text>
+                </div>
                 <div className={styles.date}>{`${date.getDate()}.${
                     date.getMonth() + 1
                 }.${date.getFullYear()}`}</div>
