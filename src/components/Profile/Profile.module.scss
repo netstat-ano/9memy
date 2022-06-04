@@ -3,7 +3,8 @@
     display: flex;
     justify-content: space-around;
 }
-.action-link:hover {
+.action-link:hover,
+.active {
     cursor: pointer;
     text-decoration: underline;
 }

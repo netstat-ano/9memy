@@ -7,6 +7,7 @@ import Post from "../Post/Post";
 const ProfilePosts = (props) => {
     const { uid } = props;
     const [posts, setPosts] = useState([]);
+    console.log(posts);
     useEffect(() => {
         setPosts([]);
         const fetchProfilePosts = async () => {
@@ -20,6 +21,11 @@ const ProfilePosts = (props) => {
                         if (post && post.user.uid === uid) {
                             post.tags = tag.replaceAll("TAG", "");
                             setPosts((prevState) => {
+                                for (const index in prevState) {
+                                    if (prevState[index].id === post.id) {
+                                        return prevState;
+                                    }
+                                }
                                 return [...prevState, post];
                             });
                         }
@@ -29,13 +35,11 @@ const ProfilePosts = (props) => {
         };
         fetchProfilePosts();
     }, []);
-    console.log(posts);
     return (
-        <div>
+        <div className={styles.container}>
             {posts.map((value) => {
-                console.log(value.tags);
                 return (
-                    <div className={styles.container}>
+                    <div className={styles["post-container"]}>
                         <Post
                             allPosts={posts}
                             setFetchedPosts={setPosts}

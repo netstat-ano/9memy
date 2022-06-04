@@ -36,6 +36,7 @@ const Profile = (props) => {
                 <div className={styles.actions}>
                     <div>
                         <NavLink
+                            activeClassName={styles.active}
                             className={styles["action-link"]}
                             to={`/profile/${uid}/posts`}
                         >
@@ -44,6 +45,7 @@ const Profile = (props) => {
                     </div>
                     <div>
                         <NavLink
+                            activeClassName={styles.active}
                             className={styles["action-link"]}
                             to={`/profile/${uid}/liked-posts`}
                         >

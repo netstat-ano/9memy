@@ -11,6 +11,7 @@ const Posts = (props) => {
         get(ref(database), `posts/TAG${params.tag}`).then((snapshot) => {
             for (const id in snapshot.val().posts[`TAG${params.tag}`]) {
                 setFetchedPosts((prevState) => [
+                    ...prevState,
                     snapshot.val().posts[`TAG${params.tag}`][id],
                 ]);
             }

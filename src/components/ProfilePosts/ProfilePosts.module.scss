@@ -1,4 +1,8 @@
-.container {
+@import "../../assets/scss/variables";
+.post-container {
     margin-top: 0.5rem;
     border: 1px solid white;
+}
+.container {
+    background-color: $secondaryTheme;
 }
