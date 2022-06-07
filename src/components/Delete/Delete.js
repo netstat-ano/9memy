@@ -25,7 +25,7 @@ const Delete = (props) => {
                 onClick={onDeleteHandler}
                 size="xs"
             >
-                Delete
+                Usuń
             </Button>
         </div>
     );

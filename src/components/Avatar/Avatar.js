@@ -19,22 +19,22 @@ const Avatar = (props) => {
     };
     useEffect(() => {
         const fetchAvatar = async () => {
-            const url = await getDownloadURL(
-                sRef(storage, `/avatar/${props.uid}`)
-            );
-            console.log(url);
-            if (url) {
+            try {
+                const url = await getDownloadURL(
+                    sRef(storage, `/avatar/${props.uid}`)
+                );
+
                 setAvatarUrl(url);
                 setIsFetchingComplete(true);
-                return;
+            } catch {
+                setAvatarUrl(defaultAvatar);
+                setIsFetchingComplete(true);
             }
-            setAvatarUrl(defaultAvatar);
-            setIsFetchingComplete(true);
         };
 
         fetchAvatar();
     }, [inputValue]);
-    console.log(avatarUrl);
+    console.log(isFetchingComplete);
     return (
         <div className={styles.avatar}>
             {!isFetchingComplete && (
