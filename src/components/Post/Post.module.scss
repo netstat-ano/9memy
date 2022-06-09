@@ -47,3 +47,9 @@
 .user {
     display: flex;
 }
+.username {
+    &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+    }
+}

@@ -10,6 +10,7 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Delete from "../Delete/Delete";
 import { useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
 const Comment = (props) => {
     const { postInfo, commentInfo } = props;
     const [isCommentActive, setIsCommentActive] = useState(false);
@@ -31,10 +32,15 @@ const Comment = (props) => {
     const onCommentClickHandler = (event) => {
         setIsCommentActive((state) => !state);
     };
+    console.log(commentInfo);
     const date = new Date(commentInfo.date);
     return (
         <div className={styles.container}>
-            <div className={styles.username}>{commentInfo.displayName}</div>
+            <div className={styles.username}>
+                <NavLink to={`/profile/${commentInfo.userID}`}>
+                    {commentInfo.displayName}
+                </NavLink>
+            </div>
             <div className={styles.date}>
                 {`${date.getDate()}.${
                     date.getMonth() + 1

@@ -4,6 +4,7 @@ import styles from "./Subcomment.module.scss";
 import useLikeSystem from "../../hooks/use-like-system";
 import Delete from "../Delete/Delete";
 import { useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
 const Subcomment = (props) => {
     const { postInfo, commentInfo } = props;
     const [likes, setLikes] = useLikeSystem({
@@ -21,9 +22,14 @@ const Subcomment = (props) => {
     const onDislikeHandler = (event) => {
         setLikes.onDislikeHandler();
     };
+    console.log(props.subcommentInfo);
     return (
         <div className={styles.container}>
-            <div>{props.subcommentInfo.displayName}</div>
+            <div className={styles.username}>
+                <NavLink to={`/profile/${props.subcommentInfo.userID}`}>
+                    {props.subcommentInfo.displayName}
+                </NavLink>
+            </div>
             <div>{props.subcommentInfo.content}</div>
             {user.uid === props.subcommentInfo.userID && (
                 <Delete

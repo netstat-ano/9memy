@@ -6,6 +6,9 @@
     box-sizing: border-box;
 }
 .username {
+    &:hover {
+        text-decoration: underline;
+    }
 }
 .content {
     font-size: 1.1rem;

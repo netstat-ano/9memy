@@ -8,6 +8,7 @@ import {
     faThumbsDown,
     faComment,
 } from "@fortawesome/free-solid-svg-icons";
+import { NavLink } from "react-router-dom";
 import { Heading, Text } from "@chakra-ui/react";
 import PostComments from "../PostComments/PostComments";
 import useLikeSystem from "../../hooks/use-like-system";
@@ -65,7 +66,9 @@ const Post = (props) => {
 
                 <div className={styles.user}>
                     <AvatarThumbnail uid={postInfo.user.uid} />
-                    <Text>{postInfo.user.displayName}</Text>
+                    <NavLink to={`/profile/${postInfo.user.uid}`}>
+                        <Text className={styles.username}>{postInfo.user.displayName}</Text>
+                    </NavLink>
                 </div>
                 <div className={styles.date}>{`${date.getDate()}.${
                     date.getMonth() + 1
