@@ -13,12 +13,15 @@ const useLikeSystem = (config) => {
     useEffect(() => {
         if (!isInitial) {
             const updates = {};
-            updates[`/posts/TAG${config.tag}/${config.url}`] = {
-                ...config.data,
-                likes,
-                dislikes,
-            };
-            update(ref(database), updates);
+            if (config.tag === config.queryTag) {
+                updates[`/posts/TAG${config.tag}/${config.url}`] = {
+                    ...config.data,
+                    likes,
+                    dislikes,
+                };
+                update(ref(database), updates);
+                return;
+            }
             return;
         }
         isInitial = false;

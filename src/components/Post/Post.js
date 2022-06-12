@@ -21,7 +21,7 @@ const Post = (props) => {
     const [isCommentSectionActive, setIsCommentSectionActive] = useState(false);
     const user = useSelector((state) => state.authentication.user);
     const { postInfo } = props;
-    console.log(postInfo.user.uid);
+    console.log(postInfo);
     const [likes, setLikes] = useLikeSystem({
         url: postInfo.id,
         id: postInfo.id,
@@ -29,6 +29,7 @@ const Post = (props) => {
         dislikes: postInfo.dislikes,
         tag: props.tag,
         data: postInfo,
+        queryTag: postInfo.tags.replace("#", ""),
     });
     const [comments, setComments] = useState(() => {
         const state = [];
@@ -67,7 +68,9 @@ const Post = (props) => {
                 <div className={styles.user}>
                     <AvatarThumbnail uid={postInfo.user.uid} />
                     <NavLink to={`/profile/${postInfo.user.uid}`}>
-                        <Text className={styles.username}>{postInfo.user.displayName}</Text>
+                        <Text className={styles.username}>
+                            {postInfo.user.displayName}
+                        </Text>
                     </NavLink>
                 </div>
                 <div className={styles.date}>{`${date.getDate()}.${

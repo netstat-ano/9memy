@@ -8,6 +8,7 @@ const Posts = (props) => {
     const params = useParams();
     const [fetchedPosts, setFetchedPosts] = useState([]);
     useEffect(() => {
+        setFetchedPosts([]);
         get(ref(database), `posts/TAG${params.tag}`).then((snapshot) => {
             for (const id in snapshot.val().posts[`TAG${params.tag}`]) {
                 setFetchedPosts((prevState) => [
@@ -16,7 +17,8 @@ const Posts = (props) => {
                 ]);
             }
         });
-    }, [props.tag]);
+    }, [params.tag]);
+    console.log(params.tag);
     console.log(fetchedPosts);
     return (
         <div className={styles.container}>
