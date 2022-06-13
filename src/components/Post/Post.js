@@ -16,10 +16,12 @@ import Delete from "../Delete/Delete";
 import AvatarThumbnail from "../AvatarThumbnail/AvatarThumbnail";
 import { useSelector } from "react-redux";
 import { update, ref } from "firebase/database";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 const Post = (props) => {
     const [fetchedMeme, setFetchedMeme] = useState(null);
     const [isCommentSectionActive, setIsCommentSectionActive] = useState(false);
     const user = useSelector((state) => state.authentication.user);
+    const history = useHistory();
     const { postInfo } = props;
     console.log(postInfo);
     const [likes, setLikes] = useLikeSystem({
@@ -47,10 +49,19 @@ const Post = (props) => {
     const onCommentsClickHandler = () => {
         setIsCommentSectionActive((state) => !state);
     };
+    const onDeleteSecondaryHandler = () => {
+        if (props.onDelete) {
+            props.onDelete();
+            return;
+        }
+    };
     const onDeleteHandler = () => {
         const updates = {};
         updates[`${user.uid}/posts/${postInfo.id}`] = null;
         update(ref(database), updates);
+    };
+    const onNavigate = (event) => {
+        history.push(`/post/${props.tag}/${postInfo.id}`);
     };
     useEffect(() => {
         getDownloadURL(sRef(storage, `memes/${postInfo.id}`)).then((url) => {
@@ -60,7 +71,7 @@ const Post = (props) => {
     const date = new Date(postInfo.date);
     return (
         <div className={styles.container}>
-            <div>
+            <div onClick={onNavigate} className={styles.wrapper}>
                 <Heading mb={2} fontSize="xl">
                     {postInfo.title}
                 </Heading>
@@ -79,6 +90,7 @@ const Post = (props) => {
                 <img className={styles.meme} src={fetchedMeme}></img>
                 {user.uid === postInfo.user.uid && (
                     <Delete
+                        onDelete={onDeleteSecondaryHandler}
                         onClick={onDeleteHandler}
                         setContent={props.setFetchedPosts}
                         content={props.allPosts}

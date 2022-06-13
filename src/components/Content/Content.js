@@ -7,6 +7,7 @@ import { Redirect } from "react-router-dom";
 import Posts from "../Posts/Posts";
 import Profile from "../Profile/Profile";
 import { Switch } from "react-router-dom";
+import PostDetail from "../PostDetail/PostDetail";
 const Content = (props) => {
     const user = useSelector((state) => state.authentication.user);
     if (!user) {
@@ -16,6 +17,9 @@ const Content = (props) => {
         <div className={styles.container}>
             <Sidebar />
             <Switch>
+                <Route path={`/post/:tag/:postID`}>
+                    <PostDetail />
+                </Route>
                 <Route path="/create-post">
                     <div>
                         <PostCreator />

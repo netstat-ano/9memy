@@ -8,6 +8,7 @@ import { ref, update } from "firebase/database";
 import { uploadBytes, ref as sRef } from "firebase/storage";
 import { database, storage } from "../../firebase";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 const tagsReducer = (state, action) => {
     const { value, event } = action;
     console.log(event);
@@ -24,15 +25,18 @@ const PostCreator = (props) => {
     const [memeUploaded, setMemeUploaded] = useState(null);
     const [titleValue, setTitleValue] = useState("");
     const [tagsValue, dispatchTagsValue] = useReducer(tagsReducer, `#`);
+    const history = useHistory();
     const user = useSelector((state) => state.authentication.user);
     const inputFileRef = useRef();
     const onSubmitHandler = async (event) => {
         event.preventDefault();
         const uniqID = "id" + Math.random().toString(16).slice(2);
         const updates = {};
+        let clearTag;
         const tagsArray = tagsValue.split(" ");
         for (const tagIndex in tagsArray) {
             const writetableTag = tagsArray[tagIndex].replace("#", "TAG");
+            clearTag = tagsArray[tagIndex].replace("#", "");
             const post = {
                 title: titleValue,
                 tags: tagsValue,
@@ -52,6 +56,7 @@ const PostCreator = (props) => {
         await update(ref(database), updates);
         const storageRef = sRef(storage, `/memes/${uniqID}`);
         await uploadBytes(storageRef, inputFileRef.current.files[0]);
+        history.push(`/post/${clearTag}/${uniqID}`);
     };
     const onTitleInputHandler = (event) => {
         setTitleValue(event.target.value);

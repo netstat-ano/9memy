@@ -10,6 +10,14 @@
     padding-top: 1rem;
     width: 100%;
 }
+.wrapper {
+    padding: 1rem;
+    border-radius: 1rem;
+    background-color: $secondaryTheme;
+    &:hover {
+        cursor: pointer;
+    }
+}
 
 .actions-container {
     display: grid;
