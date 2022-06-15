@@ -6,6 +6,7 @@ body {
     color: white !important;
     width: 100vw;
     height: fit-content;
+    overflow-x: hidden;
 }
 html {
     background-color: #333;

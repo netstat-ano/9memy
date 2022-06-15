@@ -28,7 +28,7 @@ const PostDetail = (props) => {
         };
         fetchProfile();
     }, []);
-
+    console.log(post);
     return (
         <div>
             {post.map((details) => {
