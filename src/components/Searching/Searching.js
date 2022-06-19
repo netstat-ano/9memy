@@ -3,6 +3,8 @@ import { SearchIcon } from "@chakra-ui/icons";
 import { Input } from "@chakra-ui/react";
 import styles from "./Searching.module.scss";
 import { useHistory } from "react-router-dom";
+import { get, ref } from "firebase/database";
+import { database } from "../../firebase";
 const Searching = (props) => {
     const [isSearchingActive, setIsSearchingActive] = useState(false);
     const [inputValue, setInputValue] = useState("");
@@ -12,8 +14,27 @@ const Searching = (props) => {
     };
     const onSubmitHandler = (event) => {
         event.preventDefault();
-        const searchingTag = inputValue.replace("#", "");
-        history.push(`/tag/${searchingTag}`);
+        if (inputValue.includes("#")) {
+            const searchingTag = inputValue.replace("#", "");
+            history.push(`/tag/${searchingTag}`);
+        }
+        if (inputValue.includes("@")) {
+            const fetchID = async () => {
+                const searchingUser = inputValue.replace("@", "");
+                const snapshot = await get(ref(database, `/`));
+                if (snapshot.exists()) {
+                    const response = snapshot.val();
+                    for (const id in response) {
+                        if (id !== "posts") {
+                            if (response[id].displayName === searchingUser) {
+                                history.push(`/profile/${id}`);
+                            }
+                        }
+                    }
+                }
+            };
+            fetchID();
+        }
     };
     const onInputHandler = (event) => {
         setInputValue(event.target.value);
